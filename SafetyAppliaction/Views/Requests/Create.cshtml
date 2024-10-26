@@ -1,0 +1,151 @@
+﻿@model SafetyAppliaction.Models.RequestViewModel
+
+@{
+    ViewData["Title"] = "Create Request";
+}
+
+<div class="d-flex justify-content-center mt-5">
+    <div class="card shadow-lg" style="max-width: 800px; width: 100%; border-radius: 10px;">
+        <div class="card-body">
+            <h2 class="text-center mb-4">Create Request</h2>
+            <hr />
+
+            <form id="createRequestForm">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="Title" class="form-label">Title</label>
+                            <input asp-for="Title" class="form-control" placeholder="Enter request title" />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="PotentialDangerousPoint" class="form-label">Potential Dangerous Points</label>
+                            <textarea asp-for="PotentialDangerousPoint" class="form-control" placeholder="Describe potential danger points" rows="3"></textarea>
+                            <span asp-validation-for="PotentialDangerousPoint" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="TheMostDangerPoint" class="form-label">Most Dangerous Point</label>
+                            <textarea asp-for="TheMostDangerPoint" class="form-control" placeholder="Specify the most dangerous point" rows="3"></textarea>
+                            <span asp-validation-for="TheMostDangerPoint" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="KeyWord" class="form-label">Keywords</label>
+                            <input asp-for="KeyWord" class="form-control" placeholder="Enter relevant keywords" />
+                            <span asp-validation-for="KeyWord" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label asp-for="FormNo" class="form-label">Form No</label>
+                            <input asp-for="FormNo" class="form-control" value="@Model.FormNo" readonly />
+                            <span asp-validation-for="FormNo" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="InstructorIds" class="form-label">Instructors</label>
+                            <select asp-for="InstructorIds" class="form-control selectpicker" asp-items="@(ViewData["Instructors"] as IEnumerable<SelectListItem>)" multiple data-live-search="true" id="InstructorIds">
+                            </select>
+                            <span asp-validation-for="InstructorIds" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="AttendantIds" class="form-label">Attendants</label>
+                            <select asp-for="AttendantIds" class="form-control selectpicker" asp-items="@(ViewData["Attendants"] as IEnumerable<SelectListItem>)" multiple data-live-search="true" id="AttendantIds">
+                            </select>
+                            <span asp-validation-for="AttendantIds" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Section" class="form-label">Section</label>
+                            <select asp-for="Section" class="form-select">
+                                <option value="Shift 1">Shift 1</option>
+                                <option value="Shift 2">Shift 2</option>
+                                <option value="Shift 3">Shift 3</option>
+                            </select>
+                            <span asp-validation-for="Section" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Company" class="form-label">Company</label>
+                            <input asp-for="Company" class="form-control" readonly />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <button type="button" id="submitButton" class="btn btn-primary btn-lg">Create Request</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Include jQuery and SweetAlert2 -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.selectpicker').selectpicker();
+
+        $('#submitButton').on('click', function (event) {
+            event.preventDefault();
+
+            // Ambil data dari form
+            var formData = {
+                title: $('input[name="Title"]').val(),
+                potentialDangerousPoint: $('textarea[name="PotentialDangerousPoint"]').val(),
+                theMostDangerPoint: $('textarea[name="TheMostDangerPoint"]').val(),
+                keyWord: $('input[name="KeyWord"]').val(),
+                formNo: $('input[name="FormNo"]').val(),
+                instructorIds: $('#InstructorIds').val() || [],
+                attendantIds: $('#AttendantIds').val() || [],
+                section: $('select[name="Section"]').val(),
+                company: $('input[name="Company"]').val()
+            };
+
+            // Kirim data melalui AJAX
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Create", "Requests")',
+                data: formData,
+                traditional: true, // penting untuk mengirim array secara benar
+                success: function (response) {
+                    if (response.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Request Created Successfully!',
+                            text: 'Your request has been successfully created.',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = '@Url.Action("Index", "Requests")';
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: response.message || 'Failed to create the request. Please try again!',
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Server Error',
+                        text: 'There was a problem submitting your request. Please try again later.',
+                    });
+                }
+            });
+        });
+    });
+
+
+
+
+</script>

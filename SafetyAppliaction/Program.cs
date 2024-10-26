@@ -78,7 +78,16 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IJwtTokenStorageService, JwtTokenStorageService>();
+builder.Services.AddScoped<IRequestService, RequestService>();
+builder.Services.AddScoped<IRequestRepository, RequestRepository>();
 builder.Services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
+builder.Services.AddScoped<IStatusService, StatusService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IStatusRepository, StatusRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IWorklistService, WorklistService>();
+builder.Services.AddScoped<IWorklistRepository, WorklistRepository>();
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 app.Use(async (context, next) =>
@@ -92,15 +101,18 @@ app.Use(async (context, next) =>
     await next.Invoke();
 });
 
-// Middleware untuk routing, static files, authentication, dan authorization
+
 app.UseRouting();
+
 app.UseStaticFiles();
 app.UseAuthentication(); 
 app.UseAuthorization(); 
 
-// Menetapkan rute untuk MVC
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Auth}/{action=Login}/{id?}");
+
+
 
 app.Run();

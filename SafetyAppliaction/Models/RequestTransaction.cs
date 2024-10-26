@@ -1,7 +1,6 @@
-﻿using SafetyAppliaction.Models;
-using SafetyApplication.Models;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using SafetyApplication.Models;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SafetyAppliaction.Models
 {
@@ -14,11 +13,9 @@ namespace SafetyAppliaction.Models
         [MaxLength(200)]
         public string RequestTitle { get; set; }
 
+        // Foreign key untuk Employee
         [ForeignKey("Employee")]
         public int EmployeeId { get; set; }
-
-        [ForeignKey("Department")]
-        public int DepartmentId { get; set; }
 
         [MaxLength(500)]
         public string PotentialDangerousPoint { get; set; }
@@ -29,7 +26,15 @@ namespace SafetyAppliaction.Models
         [MaxLength(500)]
         public string CounterMeasure { get; set; }
 
-        [ForeignKey("StatusTransaction")]
+        public string Keyword { get; set; }
+
+        // InstructorId sebagai properti biasa (bukan Foreign Key)
+        public int InstructorId { get; set; } // Tetap disimpan tapi tidak digunakan sebagai foreign key
+
+        // Koleksi untuk menyimpan peserta yang hadir
+        public ICollection<AttendantSignature> AttendantSignatures { get; set; }
+
+        // Foreign key untuk StatusTransaction
         public int StatusId { get; set; }
 
         [Required]
@@ -39,9 +44,14 @@ namespace SafetyAppliaction.Models
         public DateTime UpdatedAt { get; set; }
 
         // Navigation properties
+
+        // Properti navigasi untuk Employee
         public Employee Employee { get; set; }
-        public Department Department { get; set; }
+
+        // Properti navigasi untuk StatusTransaction
         public StatusTransaction Status { get; set; }
+
+        // Properti navigasi untuk Instructor (jika dibutuhkan di logika aplikasi)
+        public Employee Instructor { get; set; } // Tidak lagi dianggap sebagai foreign key
     }
 }
-   

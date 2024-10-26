@@ -18,9 +18,9 @@ namespace SafetyAppliaction.Services
             _passwordHasher = passwordHasher;
         }
 
-        public async Task<bool> RegisterAsync(string username, string password, string roleName, int employeeId)
+        public async Task<bool> RegisterAsync(string Email, string password, string roleName, int employeeId)
         {
-            var existingUser = await _userRepository.GetUserByUsernameAsync(username); 
+            var existingUser = await _userRepository.GetUserByUsernameAsync(Email); 
             if (existingUser != null)
             {
                 return false; 
@@ -34,10 +34,12 @@ namespace SafetyAppliaction.Services
 
             var newUser = new User
             {
-                Username = username, 
+                Email = Email, 
                 RoleId = role.RoleId,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow,
+                CreateDate = DateTime.UtcNow,
+                CreateBy = "System",
+                UpdateDate = DateTime.UtcNow,
+                UpdateBy = "System",
                 IsActive = true,
                 EmployeeId = employeeId 
             };

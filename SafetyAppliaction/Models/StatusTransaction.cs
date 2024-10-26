@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SafetyApplication.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace SafetyAppliaction.Models
 {

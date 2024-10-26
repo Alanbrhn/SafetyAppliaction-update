@@ -16,7 +16,7 @@ namespace SafetyAppliaction.Services
         public async Task SaveTokenInfoAsync(JwtTokenInfo tokenInfo)
         {
             tokenInfo.CreatedAt = DateTime.Now;
-            _context.JwtTokenInfos.Add(tokenInfo);
+            _context.JwtTokens.Add(tokenInfo);
             await _context.SaveChangesAsync();
         }
     }

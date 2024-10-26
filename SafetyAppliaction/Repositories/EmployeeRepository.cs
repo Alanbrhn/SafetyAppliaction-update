@@ -13,6 +13,12 @@ namespace SafetyAppliaction.Repositories
             _context = context;
         }
 
+        public async Task<List<Employee>> GetAll()
+        {
+            return await _context.Employees.ToListAsync();
+        }
+
+
 
         public async Task<Employee> GetEmployeeByEmailAsync(string email)
         {
@@ -31,8 +37,7 @@ namespace SafetyAppliaction.Repositories
             }
         }
 
-
-
+        
     }
 
 }

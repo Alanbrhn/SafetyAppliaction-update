@@ -1,8 +1,8 @@
-﻿using SafetyApplication.Models;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using SafetyAppliaction.Models;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SafetyAppliaction.Models
+namespace SafetyApplication.Models
 {
     public class ApprovalWorkflow
     {

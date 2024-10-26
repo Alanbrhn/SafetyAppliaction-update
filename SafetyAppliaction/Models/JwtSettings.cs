@@ -1,4 +1,6 @@
-﻿namespace SafetyAppliaction.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SafetyAppliaction.Models
 {
     public class JwtSettings
     {
@@ -9,6 +11,7 @@
     }
     public class JwtTokenInfo
     {
+        [Key]
         public int Id { get; set; }
         public string SecretKey { get; set; }
         public string Issuer { get; set; }
