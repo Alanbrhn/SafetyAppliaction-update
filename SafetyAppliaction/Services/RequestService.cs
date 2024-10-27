@@ -81,20 +81,12 @@ namespace SafetyAppliaction.Services
            
         }
 
-        Task<Request> IRequestService.CreateRequestAsync(Request request)
+        public async Task<Request> GetRequestDetailAsync(int requestId)
         {
-            throw new NotImplementedException();
+            return await _requestRepository.GetRequestDetailAsync(requestId);
         }
 
-        public Task AddInstructorToRequestAsync(int requestId, int instructorId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task AddAttendantToRequestAsync(int requestId, int attendantId)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 
 }

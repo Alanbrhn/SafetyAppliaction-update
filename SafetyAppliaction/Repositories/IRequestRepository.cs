@@ -13,6 +13,7 @@ namespace SafetyAppliaction.Repositories
         Task<IEnumerable<Status>> GetStatusesAsync();
         Task AddInstructorToRequestAsync(int requestId, int instructorId);
         Task AddAttendantToRequestAsync(int requestId, int attendantId);
+        Task<Request> GetRequestDetailAsync(int requestId);
 
     }
 

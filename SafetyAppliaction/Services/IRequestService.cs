@@ -12,9 +12,10 @@ namespace SafetyAppliaction.Services
         Task<bool> RequestExistsAsync(int id);
         Task<IEnumerable<Status>> GetStatusesAsync();
         string GenerateFormNumber(string formName, string department, int sequenceNumber, DateTime date);
-        Task<Request> CreateRequestAsync(Request request);
-        Task AddInstructorToRequestAsync(int requestId, int instructorId);
-        Task AddAttendantToRequestAsync(int requestId, int attendantId);
+     
+        Task<Request> GetRequestDetailAsync(int requestId);
+
+       
     }
 
 }

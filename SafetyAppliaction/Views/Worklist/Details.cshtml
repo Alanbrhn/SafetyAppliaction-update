@@ -1,0 +1,150 @@
+﻿@model SafetyAppliaction.Models.Request
+
+<h2 class="mb-4">Request Details</h2>
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Request ID: @Model.RequestId</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <h5>Request Information</h5>
+                <table class="table">
+                    <tr>
+                        <th>Title</th>
+                        <td>@Model.Title</td>
+                    </tr>
+                    <tr>
+                        <th>Potential Dangerous Point</th>
+                        <td>@Model.PotentialDangerousPoint</td>
+                    </tr>
+                    <tr>
+                        <th>The Most Dangerous Point</th>
+                        <td>@Model.TheMostDangerPoint</td>
+                    </tr>
+                    <tr>
+                        <th>Key Word</th>
+                        <td>@Model.KeyWord</td>
+                    </tr>
+                    <tr>
+                        <th>Form No</th>
+                        <td>@Model.FormNo</td>
+                    </tr>
+                    <tr>
+                        <th>Department</th>
+                        <td>@Model.Departement</td>
+                    </tr>
+                    <tr>
+                        <th>Section</th>
+                        <td>@Model.Section</td>
+                    </tr>
+                    <tr>
+                        <th>Date</th>
+                        <td>@Model.Date.ToString("yyyy-MM-dd")</td>
+                    </tr>
+                    <tr>
+                        <th>Time</th>
+                        <td>@Model.Time</td>
+                    </tr>
+                    <tr>
+                        <th>Company</th>
+                        <td>@Model.Company</td>
+                    </tr>
+                    <tr>
+                        <th>Status ID</th>
+                        <td>@Model.StatusId</td>
+                    </tr>
+                    <tr>
+                        <th>Approval Stage</th>
+                        <td>@Model.ApprovalStage</td>
+                    </tr>
+                    <tr>
+                        <th>Created At</th>
+                        <td>@Model.CreateDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    </tr>
+                    <tr>
+                        <th>Created By</th>
+                        <td>@Model.CreateBy</td>
+                    </tr>
+                    <tr>
+                        <th>Updated At</th>
+                        <td>@Model.UpdateDate?.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    </tr>
+                    <tr>
+                        <th>Updated By</th>
+                        <td>@Model.UpdateBy</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4">
+    <h5>Instructors</h5>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Instructor Employee ID</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Instructors != null && Model.Instructors.Any())
+            {
+                foreach (var instructor in Model.Instructors)
+                {
+                    <tr>
+                        <td>@instructor.EmployeeId</td>
+                        <td>@instructor.EmployeeName</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                // Biarkan tabel kosong jika tidak ada instruktur
+            }
+        </tbody>
+    </table>
+
+    <h5 class="mt-4">Attendants</h5>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Attendant Employee ID</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Attendants != null && Model.Attendants.Any())
+            {
+                foreach (var attendant in Model.Attendants)
+                {
+                    <tr>
+                        <td>@attendant.EmployeeId</td>
+                        <td>@attendant.EmployeeName</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                // Biarkan tabel kosong jika tidak ada peserta
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="mt-4 text-center">
+    <h5>Actions</h5>
+    <form asp-controller="Worklist" asp-action="Approve" method="post" style="display:inline;">
+        <input type="hidden" name="id" value="@Model.RequestId" />
+        <button type="submit" class="btn btn-success me-2">Approve</button>
+    </form>
+    <form asp-controller="Worklist" asp-action="Reject" method="post" style="display:inline;">
+        <input type="hidden" name="id" value="@Model.RequestId" />
+        <button type="submit" class="btn btn-danger me-2">Reject</button>
+    </form>
+    <form asp-controller="Worklist" asp-action="Index" method="get" style="display:inline;">
+        <button type="submit" class="btn btn-secondary">Back to Worklist</button>
+    </form>
+</div>

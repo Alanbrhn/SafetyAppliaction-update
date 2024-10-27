@@ -1,0 +1,47 @@
+﻿@model List<SafetyAppliaction.Models.Worklist>
+
+<h2 class="mb-4">Worklist</h2>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead class="table-light">
+            <tr>
+                <th>Worklist ID</th>
+                <th>Request ID</th>
+                <th>Approver</th>
+                <th>Status ID</th>
+                <th>Create Date</th>
+                <th>Approval Stage</th>
+                <th>Proses</th> <!-- Ganti Actions dengan Proses -->
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var worklist in Model)
+                {
+                    <tr>
+                        <td>@worklist.WorklistId</td>
+                        <td>
+                            <a asp-controller="Worklist" asp-action="Details" asp-route-id="@worklist.WorklistId" class="text-decoration-none">
+                                @worklist.RequestId
+                            </a>
+                        </td>
+                        <td>@worklist.Approver</td>
+                        <td>@worklist.StatusId</td>
+                        <td>@worklist.CreateDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                        <td>@worklist.ApprovalStage</td>
+                        <td>
+                            <a asp-controller="Worklist" asp-action="Details" asp-route-id="@worklist.RequestId" class="btn btn-primary btn-sm">Proses</a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7" class="text-center">Tidak ada data worklist yang tersedia.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

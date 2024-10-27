@@ -97,7 +97,10 @@ namespace SafetyAppliaction.Controllers
         {
             // Ambil user yang sedang login
             var user = await _userService.GetLoggedInUser();
-
+            var nextApprover = await _context.Departements
+                .Where(d => d.DepartmentId == user.Employee.DepartmentId)
+                .Select(d => d.AdminId)
+                .FirstOrDefaultAsync();
             // Buat objek Request
             var request = new Request
             {
@@ -106,7 +109,7 @@ namespace SafetyAppliaction.Controllers
                 TheMostDangerPoint = theMostDangerPoint,
                 KeyWord = keyWord,
                 FormNo = formNo,
-                Departement = "IT",
+                Departement = user.Employee.Departements.DepartmentName,
                 Section = section,
                 Date = DateTime.Now,
                 Time = DateTime.Now.TimeOfDay,
@@ -114,7 +117,8 @@ namespace SafetyAppliaction.Controllers
                 StatusId = 1,
                 ApprovalStage = 1,
                 CreateDate = DateTime.Now,
-                CreateBy = user?.Employee?.EmployeeName ?? "System"
+                CreateBy = user?.Employee?.EmployeeName ?? "System",
+                NextApprover = nextApprover
             };
 
             using (var transaction = await _context.Database.BeginTransactionAsync())

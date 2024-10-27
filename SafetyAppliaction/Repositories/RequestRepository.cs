@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SafetyAppliaction.Models;
 using SafetyApplication.Data;
+using SafetyApplication.Models;
 
 namespace SafetyAppliaction.Repositories
 {
@@ -95,6 +96,55 @@ namespace SafetyAppliaction.Repositories
                 }
             }
         }
+        public async Task<Request> GetRequestDetailAsync(int requestId)
+        {
+            // Menggunakan async/await untuk query
+            var requestDetail = await _context.Requests
+                .Include(r => r.Attendants)  // Mengambil data Attendants
+                .Include(r => r.Instructors)  // Mengambil data Instructors
+                .Where(r => r.RequestId == requestId)  // Menyaring berdasarkan requestId
+                .Select(r => new Request
+                {
+                    RequestId = r.RequestId,
+                    Title = r.Title,
+                    PotentialDangerousPoint = r.PotentialDangerousPoint,
+                    TheMostDangerPoint = r.TheMostDangerPoint,
+                    KeyWord = r.KeyWord,
+                    FormNo = r.FormNo,
+                    Departement = r.Departement,
+                    Section = r.Section,
+                    Date = r.Date,
+                    Time = r.Time,
+                    Company = r.Company,
+                    StatusId = r.StatusId,
+                    ApprovalStage = r.ApprovalStage,
+                    CreateDate = r.CreateDate,
+                    CreateBy = r.CreateBy,
+                    UpdateDate = r.UpdateDate,
+                    UpdateBy = r.UpdateBy,
+                    Instructors = r.Instructors.Select(i => new Employee
+                    {
+                        EmployeeId = i.EmployeeId, // Ganti dengan ID karyawan yang sesuai
+                        EmployeeName = i.EmployeeName // Pastikan Anda memiliki properti Name dalam model Employee
+                    }).ToList(),
+                    Attendants = r.Attendants.Select(a => new Employee
+                    {
+                        EmployeeId = a.EmployeeId, // Ganti dengan ID karyawan yang sesuai
+                        EmployeeName = a.EmployeeName // Pastikan Anda memiliki properti Name dalam model Employee
+                    }).ToList()
+                })
+                .FirstOrDefaultAsync(); // Menggunakan FirstOrDefaultAsync untuk mengambil hasil
+
+            // Periksa apakah requestDetail null
+            if (requestDetail == null)
+            {
+                return null; // Atau lemparkan exception, atau kembalikan nilai default
+            }
+
+            // Kembalikan requestDetail yang telah diperiksa
+            return requestDetail;
+        }
+
 
     }
 

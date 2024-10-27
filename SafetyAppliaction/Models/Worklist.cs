@@ -40,6 +40,7 @@ namespace SafetyAppliaction.Models
         public Request Request { get; set; }
 
         public string Approver { get; set; }
+        public int EmployeeId { get; set; }
 
         // Relasi ke Status
         public int StatusId { get; set; }

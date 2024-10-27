@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SafetyApplication.Data;
 
@@ -10,9 +11,11 @@ using SafetyApplication.Data;
 namespace SafetyAppliaction.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241026141721_UpdateTableWorklist")]
+    partial class UpdateTableWorklist
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.10");
@@ -159,9 +162,6 @@ namespace SafetyAppliaction.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("NextApprover")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("PotentialDangerousPoint")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -229,21 +229,21 @@ namespace SafetyAppliaction.Migrations
                         {
                             RoleId = 1,
                             CreateBy = "System",
-                            CreateDate = new DateTime(2024, 10, 27, 1, 18, 24, 563, DateTimeKind.Local).AddTicks(5126),
+                            CreateDate = new DateTime(2024, 10, 26, 21, 17, 16, 1, DateTimeKind.Local).AddTicks(4956),
                             RoleName = "User"
                         },
                         new
                         {
                             RoleId = 2,
                             CreateBy = "System",
-                            CreateDate = new DateTime(2024, 10, 27, 1, 18, 24, 563, DateTimeKind.Local).AddTicks(5142),
+                            CreateDate = new DateTime(2024, 10, 26, 21, 17, 16, 1, DateTimeKind.Local).AddTicks(4973),
                             RoleName = "Admin"
                         },
                         new
                         {
                             RoleId = 3,
                             CreateBy = "System",
-                            CreateDate = new DateTime(2024, 10, 27, 1, 18, 24, 563, DateTimeKind.Local).AddTicks(5143),
+                            CreateDate = new DateTime(2024, 10, 26, 21, 17, 16, 1, DateTimeKind.Local).AddTicks(4975),
                             RoleName = "Manager"
                         });
                 });
@@ -280,42 +280,42 @@ namespace SafetyAppliaction.Migrations
                         {
                             StatusId = 1,
                             CreateBy = "System",
-                            CreateDate = new DateTime(2024, 10, 27, 1, 18, 24, 563, DateTimeKind.Local).AddTicks(5312),
+                            CreateDate = new DateTime(2024, 10, 26, 21, 17, 16, 1, DateTimeKind.Local).AddTicks(5132),
                             StatusName = "waiting Checking"
                         },
                         new
                         {
                             StatusId = 2,
                             CreateBy = "System",
-                            CreateDate = new DateTime(2024, 10, 27, 1, 18, 24, 563, DateTimeKind.Local).AddTicks(5313),
+                            CreateDate = new DateTime(2024, 10, 26, 21, 17, 16, 1, DateTimeKind.Local).AddTicks(5134),
                             StatusName = "Checked"
                         },
                         new
                         {
                             StatusId = 3,
                             CreateBy = "System",
-                            CreateDate = new DateTime(2024, 10, 27, 1, 18, 24, 563, DateTimeKind.Local).AddTicks(5315),
+                            CreateDate = new DateTime(2024, 10, 26, 21, 17, 16, 1, DateTimeKind.Local).AddTicks(5135),
                             StatusName = "Reviewed"
                         },
                         new
                         {
                             StatusId = 4,
                             CreateBy = "System",
-                            CreateDate = new DateTime(2024, 10, 27, 1, 18, 24, 563, DateTimeKind.Local).AddTicks(5316),
+                            CreateDate = new DateTime(2024, 10, 26, 21, 17, 16, 1, DateTimeKind.Local).AddTicks(5137),
                             StatusName = "Approved DeptHead"
                         },
                         new
                         {
                             StatusId = 5,
                             CreateBy = "System",
-                            CreateDate = new DateTime(2024, 10, 27, 1, 18, 24, 563, DateTimeKind.Local).AddTicks(5317),
+                            CreateDate = new DateTime(2024, 10, 26, 21, 17, 16, 1, DateTimeKind.Local).AddTicks(5138),
                             StatusName = "Approved Manager"
                         },
                         new
                         {
                             StatusId = 6,
                             CreateBy = "System",
-                            CreateDate = new DateTime(2024, 10, 27, 1, 18, 24, 563, DateTimeKind.Local).AddTicks(5318),
+                            CreateDate = new DateTime(2024, 10, 26, 21, 17, 16, 1, DateTimeKind.Local).AddTicks(5139),
                             StatusName = "Rejected"
                         });
                 });

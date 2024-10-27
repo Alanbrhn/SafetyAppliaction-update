@@ -32,6 +32,7 @@ namespace SafetyAppliaction.Services
 
             var department = employee.Departements;
             string approver = string.Empty;
+            int EmployeeIdApprover = 0;
 
             // Determine approver based on ApprovalStage
             switch (request.ApprovalStage)
@@ -40,25 +41,34 @@ namespace SafetyAppliaction.Services
                     approver = await _context.Employees
                         .Where(e => e.EmployeeId == department.AdminId)
                         .Select(e => e.EmployeeName)
-                        .FirstOrDefaultAsync(); 
+                        .FirstOrDefaultAsync();
+
+                    EmployeeIdApprover = department.AdminId;
+
                     break;
                 case 2:
                     approver = await _context.Employees
                         .Where(e => e.EmployeeId == department.SecretaryId)
                         .Select(e => e.EmployeeName)
-                        .FirstOrDefaultAsync(); 
+                        .FirstOrDefaultAsync();
+
+                    EmployeeIdApprover = department.SecretaryId;
                     break;
                 case 3:
                     approver = await _context.Employees
                         .Where(e => e.EmployeeId == department.DeptHeadId)
                         .Select(e => e.EmployeeName)
-                        .FirstOrDefaultAsync(); 
+                        .FirstOrDefaultAsync();
+
+                    EmployeeIdApprover = department.DepartmentId;
                     break;
                 case 4:
                     approver = await _context.Employees
                         .Where(e => e.EmployeeId == department.ManagerId)
                         .Select(e => e.EmployeeName)
-                        .FirstOrDefaultAsync(); 
+                        .FirstOrDefaultAsync();
+
+                    EmployeeIdApprover = department.ManagerId;
                     break;
                 default:
                     throw new ArgumentException("Invalid Approval Stage");
@@ -77,7 +87,8 @@ namespace SafetyAppliaction.Services
                 StatusId = request.StatusId,
                 CreateDate = DateTime.Now,
                 CreateBy = employee.EmployeeName,
-                ApprovalStage = request.ApprovalStage
+                ApprovalStage = request.ApprovalStage,
+                EmployeeId = EmployeeIdApprover
             };
 
             _context.Worklists.Add(worklist);
@@ -96,6 +107,32 @@ namespace SafetyAppliaction.Services
             return await _worklistRepository.GetAllWorklistsAsync();
         }
 
+        public async Task<List<Worklist>> GetPendingWorklistAsync(int employeeId)
+        {
+            return await _worklistRepository.GetPendingWorklistByEmployeeIdAsync(employeeId);
+        }
+
+        public async Task<int> GetPendingWorklistCountAsync(int employeeId)
+        {
+            return await _worklistRepository.GetPendingWorklistCountByEmployeeIdAsync(employeeId);
+        }
+
+        public async Task<Worklist> GetWorklistDetailsAsyn(int id)
+        {
+            return await _worklistRepository.GetWorklistDetails(id);
+        }
+
+        public async Task ApproveRequestAsync(int id, int employeeId)
+        {
+            await _worklistRepository.ApproveRequest(id, employeeId);
+        }
+
+        public async Task RejectRequestAsync(int id, int employeeId)
+        {
+            await _worklistRepository.RejectRequest(id, employeeId);
+        }
+
+       
     }
 
 }
